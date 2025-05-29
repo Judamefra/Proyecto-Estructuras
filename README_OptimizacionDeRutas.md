@@ -57,6 +57,8 @@ Diseñar e implementar un sistema que permita encontrar rutas óptimas entre dif
 | Algoritmo de búsqueda         | Recursivo por fuerza bruta | Recorrido por caminos precalculados | Dijkstra (heap)              |
 | Visualización incluida        | No                         | Parcial (`vshow()`)             | Completa (`networkx`)            |
 
+> **Nota:** En la complejidad de Dijkstra, `V` representa el número de nodos (ubicaciones) y `E` el número de aristas (rutas entre ubicaciones).
+
 ---
 
 ## 5. Conclusiones Finales
@@ -67,3 +69,4 @@ Diseñar e implementar un sistema que permita encontrar rutas óptimas entre dif
 
 > **Conclusión general:** A medida que aumentó la complejidad estructural (de listas a grafos), la eficiencia computacional del sistema mejoró notablemente. Esto evidencia cómo la selección adecuada de estructuras y algoritmos es clave para resolver problemas reales de forma óptima.
 ---
+

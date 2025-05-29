@@ -50,21 +50,20 @@ Diseñar e implementar un sistema que permita encontrar rutas óptimas entre dif
 
 | Criterio                      | Listas Enlazadas           | Árboles (`bigtree`)             | Grafos (`dict + Dijkstra`)       |
 |-------------------------------|----------------------------|---------------------------------|----------------------------------|
-| Tipo de red soportada         | Secuencial/simple          | Jerárquica                      | Compleja, con ciclos y múltiples rutas |
-| Eficiencia de búsqueda        | Muy baja (fuerza bruta)    | Alta (distancias precalculadas) | Muy alta (Dijkstra)             |
+| Tipo de red soportada         | Secuencial/simple          | Jerárquica                 | Compleja, con ciclos y múltiples rutas |
+|Complejidad de búsqueda        | 𝒪(n!)                      | 𝒪(k) *(k = rutas cargadas)*    | 𝒪((V + E) log V)                |
 | Escalabilidad                 | Baja                       | Media                           | Alta                             |
 | Flexibilidad estructural      | Limitada                   | Moderada                        | Alta                             |
-| Facilidad de implementación   | Alta                       | Media                           | Media-baja                       |
+| Algoritmo de búsqueda         | Recursivo por fuerza bruta | Recorrido por caminos precalculados | Dijkstra (heap)              |
 | Visualización incluida        | No                         | Parcial (`vshow()`)             | Completa (`networkx`)            |
 
 ---
 
 ## 5. Conclusiones Finales
 
-- La implementación con **listas** permitió introducir la lógica del problema, pero mostró ser ineficiente y poco escalable.
-- Los **árboles** ofrecieron una mejora significativa en velocidad al estructurar rutas de forma jerárquica con distancias acumuladas.
-- La solución más potente fue la basada en **grafos**, permitiendo representar cualquier tipo de red, encontrar rutas óptimas de forma eficiente con Dijkstra y visualizar el grafo completo.
+- La implementación con **listas enlazadas** tiene una complejidad **exponencial (𝒪(n!))** en el peor caso, debido a que explora todos los caminos posibles de forma recursiva sin optimización.
+- La implementación con **árboles** mejora en tiempo al utilizar **distancias precalculadas**, haciendo que la búsqueda sea casi constante: **𝒪(k)**, donde *k* es el número de rutas posibles desde un nodo.
+- La implementación con **grafos y Dijkstra** ofrece la mejor eficiencia: **𝒪((V + E) log V)** gracias al uso de colas de prioridad, lo que la hace ideal para redes grandes y complejas.
 
-> **Conclusión general:** La estructura de grafos fue la mejor opción en términos de eficiencia, escalabilidad y realismo para problemas de optimización de rutas. Este proyecto evidenció cómo la elección adecuada de la estructura de datos impacta profundamente en la solución de un problema computacional.
-
+> **Conclusión general:** A medida que aumentó la complejidad estructural (de listas a grafos), la eficiencia computacional del sistema mejoró notablemente. Esto evidencia cómo la selección adecuada de estructuras y algoritmos es clave para resolver problemas reales de forma óptima.
 ---

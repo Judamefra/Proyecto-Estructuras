@@ -1,0 +1,100 @@
+import heapq
+import matplotlib.pyplot as plt
+import networkx as nx
+
+class Grafo:
+    def __init__(self):
+        self.nodos = {}
+
+    def añadir_arista(self, origen, destino, peso):
+        if origen not in self.nodos:
+            self.nodos[origen] = {}
+        self.nodos[origen][destino] = peso
+
+    def obtener_nodos(self):
+        nodos = set(self.nodos.keys())
+        for vecinos in self.nodos.values():
+            nodos.update(vecinos.keys())
+        return list(nodos)
+
+def dijkstra(grafo, inicio):
+    distancias = {nodo: float('inf') for nodo in grafo.obtener_nodos()}
+    distancias[inicio] = 0
+    cola = [(0, inicio)]
+    while cola:
+        distancia_actual, nodo_actual = heapq.heappop(cola)
+        if distancia_actual > distancias[nodo_actual]:
+            continue
+        for vecino, peso in grafo.nodos.get(nodo_actual, {}).items():
+            distancia = distancia_actual + peso
+            if distancia < distancias[vecino]:
+                distancias[vecino] = distancia
+                heapq.heappush(cola, (distancia, vecino))
+    return distancias
+
+def visualizar_grafo(grafo):
+    G = nx.DiGraph()
+    for origen, destinos in grafo.nodos.items():
+        for destino, peso in destinos.items():
+            G.add_edge(origen, destino, weight=peso)
+    if len(G.nodes) == 0:
+        print("El grafo está vacío, no se puede visualizar.")
+        return
+    pos = nx.circular_layout(G)  # Layout compatible
+    plt.figure(figsize=(8, 6))
+    nx.draw(
+        G, pos, with_labels=True, node_color='lightblue',
+        node_size=2000, font_size=14, font_weight='bold', arrowsize=20
+    )
+    etiquetas_peso = nx.get_edge_attributes(G, 'weight')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=etiquetas_peso, font_size=12)
+    plt.title('Visualización del Grafo')
+    plt.axis('off')
+    plt.tight_layout()
+    plt.show()
+
+def interfaz():
+    g = Grafo()
+    print("Bienvenido al sistema de creación de grafos.")
+    while True:
+        print("\nOpciones:")
+        print("1. Añadir arista")
+        print("2. Visualizar grafo")
+        print("3. Calcular rutas mínimas (Dijkstra)")
+        print("4. Salir")
+        opcion = input("Elige una opción: ")
+        if opcion == "1":
+            origen = input("Nodo origen: ")
+            destino = input("Nodo destino: ")
+            try:
+                peso = float(input("Peso de la arista: "))
+            except ValueError:
+                print("Peso inválido. Intenta de nuevo.")
+                continue
+            g.añadir_arista(origen, destino, peso)
+            print(f"Arista {origen} -> {destino} con peso {peso} añadida.")
+        elif opcion == "2":
+            if not g.nodos:
+                print("El grafo está vacío.")
+            else:
+                visualizar_grafo(g)
+        elif opcion == "3":
+            if not g.nodos:
+                print("El grafo está vacío.")
+            else:
+                inicio = input("Nodo de inicio para Dijkstra: ")
+                if inicio not in g.obtener_nodos():
+                    print("Ese nodo no existe en el grafo.")
+                else:
+                    distancias = dijkstra(g, inicio)
+                    print("Distancias mínimas desde", inicio)
+                    for nodo, distancia in distancias.items():
+                        print(f"{inicio} -> {nodo}: {distancia}")
+        elif opcion == "4":
+            print("¡Hasta luego!")
+            break
+        else:
+            print("Opción no válida. Intenta de nuevo.")
+
+if __name__ == "__main__":
+    interfaz()
